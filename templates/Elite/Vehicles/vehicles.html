@@ -1,0 +1,132 @@
+{% extends 'Elite/base.html' %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Vehicles{% endblock %}</title>
+</head>
+<body>
+{% block body %}
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-10 offset-md-2">
+
+                <div class="row">
+                    <div class="col-md-9">
+                    <table class="table" style="border: none;">
+                          <thead class="thead">
+                             
+                                 <th class="text-center col-1" scope="col" style="border: none;">
+                                     <p style="display: inline; text-align: left" class="h1">Vehicles</p>
+                                 </th>
+                                 <th class="text-md-right" scope="col" style="border: none;">
+                                     <input type="text" id="searchInput" style="display: flow" class="form-control" placeholder="Search...">
+                                 </th>
+                                 
+                                 <th class="text-md-right col-2" scope="col" style="border: none;">
+                                     
+                                     <a href="{% url 'Elite:newVehicle' %}" style="display: inline-block" class="btn btn-primary text-right">+ New Vehicle</a>
+                                 </th>
+                            
+                          </thead>
+                    </table>
+                        
+                        <table id="vehicleTable" class="table table-hover">
+                          <thead class="thead-dark">
+                             <tr>
+                                 <th class="text-center" scope="col">ID</th>
+                                 <th class="text-center" scope="col">Status</th>
+                                 <th class="text-center" scope="col">Year</th>
+                                 <th class="text-center" scope="col">Make</th>
+                                 <th class="text-center" scope="col">Model</th>
+                                 <th class="text-center" scope="col">VIN</th>
+                                 <th class="text-center" scope="col">Purchase Date</th>
+                                 <th class="text-center" scope="col">Purchase Price</th>
+                                 <th class="text-center" scope="col">Options</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {% for VehicleInformation in vehicle_list %}
+                            <tr data-url-view="{% url 'Elite:viewVehicle' vehicle_id=VehicleInformation.id edit='false' %}" data-url-edit="{% url 'Elite:viewVehicle' vehicle_id=VehicleInformation.id edit='true' %}" class="clickable-row">
+                                <td class="text-center align-middle">{{ VehicleInformation.id }}</td>
+                                <td class="text-center align-middle">{{ VehicleInformation.dropdown_field }}</td>
+                                <td class="text-center align-middle">{{ VehicleInformation.Year }}</td>
+                                <td class="text-center align-middle">{{ VehicleInformation.Make }}</td>
+                                <td class="text-center align-middle">{{ VehicleInformation.Model }}</td>
+                                <td class="text-center align-middle">{{ VehicleInformation.VIN }}</td>
+                                <td class="text-center align-middle">{{ VehicleInformation.PurchaseDate }}</td>
+                                <td class="text-center align-middle">{{ VehicleInformation.PurchasePrice }}</td>
+                                <td class="text-center align-middle">
+                                    <a href="{% url 'Elite:viewVehicle' vehicle_id=VehicleInformation.id edit='false' %}" class="btn btn-primary">View</a>
+                                    <a href="{% url 'Elite:viewVehicle' vehicle_id=VehicleInformation.id edit='true' %}" class="btn btn-warning">Edit</a>
+{#                                    <a href="{% url 'Elite:deleteVehicle' vehicle_id=VehicleInformation.id %}" class="btn btn-danger">Delete</a>#}
+                                </td>
+                            </tr>
+                              
+                            {% endfor %}
+                            
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script>
+    // JavaScript for double-click event
+    document.addEventListener("DOMContentLoaded", function() {
+        var rows = document.querySelectorAll(".clickable-row");
+        rows.forEach(function(row) {
+            row.addEventListener("dblclick", function() {
+                var viewUrl = this.getAttribute("data-url-view");
+                var editUrl = this.getAttribute("data-url-edit");
+                // Redirect to view or edit URL based on double-click
+                // For example, you can use window.location.href
+                // window.location.href = viewUrl;
+                // Or open in a new tab
+                window.location.href = viewUrl;
+            });
+        });
+    });
+    
+    
+ document.addEventListener("DOMContentLoaded", function() {
+        var searchInput = document.getElementById('searchInput');
+        var vehicleTable = document.getElementById('vehicleTable');
+        var rows = vehicleTable.getElementsByTagName('tr');
+
+        searchInput.addEventListener('keyup', function(event) {
+            var searchText = event.target.value.toLowerCase();
+
+            for (var i = 1; i < rows.length; i++) { // Start from index 1 to exclude the header row
+                var row = rows[i];
+                var cells = row.getElementsByTagName('td');
+                var found = false;
+
+                for (var j = 0; j < cells.length; j++) {
+                    var cell = cells[j];
+                    if (cell.textContent.toLowerCase().indexOf(searchText) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+    });
+</script>
+    
+{% endblock %}
+</body>
+</html>

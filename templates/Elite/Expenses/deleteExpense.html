@@ -1,0 +1,40 @@
+{% extends 'Elite/base.html' %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Delete Expense {{ expense.id }}{% endblock %}</title>
+</head>
+<body>
+{% block body %}
+<div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Are you sure you want to delete?</h5>
+                        <p class="card-text">This action cannot be undone.</p>
+                        <p>Information: </p>
+                        <p>Vehicle: {{ expense.VehicleId.id }} {{ expense.VehicleId.Year }} {{ expense.VehicleId.Make }} {{ expense.VehicleId.Model }}</p>
+                        <p>Description: {{ expense.Description }}</p>
+                        <p>Amount: ${{ expense.Amount }}</p>
+                        <form action="#" method="post">
+                            <!-- Add your delete action URL in the action attribute -->
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger mr-2">Yes, Delete</button>
+                            <a href="{% url 'Elite:viewVehicle' vehicle_id=expense.VehicleId.id edit='False'%}" class="btn btn-secondary">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+</body>
+</html>

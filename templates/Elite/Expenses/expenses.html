@@ -1,0 +1,127 @@
+{% extends 'Elite/base.html' %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}All Expenses{% endblock %}</title>
+</head>
+<body>
+{% block body %}
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-10 offset-md-2">
+
+                <div class="row">
+                    <div class="col-md-9">
+                    <table class="table" style="border: none;">
+                          <thead class="thead">
+
+                                 <th class="text-center col-1" scope="col" style="border: none;">
+                                     <p style="display: inline; text-align: left" class="h1">Expenses</p>
+                                 </th>
+                                 <th class="text-md-right" scope="col" style="border: none;">
+                                     <input type="text" id="searchInput" style="display: flow" class="form-control" placeholder="Search...">
+                                 </th>
+
+                                 <th class="text-md-right col-2" scope="col" style="border: none;">
+
+                                     <a href="{% url 'Elite:newExpense' %}" style="display: inline-block" class="btn btn-primary text-right">+ New Expense</a>
+                                 </th>
+
+                          </thead>
+                    </table>
+
+                        <table id="vehicleTable" class="table table-hover">
+                          <thead class="thead-dark">
+                             <tr>
+                                 <th class="text-center" scope="col">ID</th>
+                                 <th class="text-center" scope="col">Vehicle Id</th>
+                                 <th class="text-center" scope="col">VIN</th>
+                                 <th class="text-center" scope="col">Date</th>
+                                 <th class="text-center" scope="col">Description</th>
+                                 <th class="text-center" scope="col">Cost</th>
+                                 <th class="text-center" scope="col">Options</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                       {% for expense in expenses_list %}
+                            <tr class="clickable-row" data-url-view="{% url 'Elite:viewExpense' expense_id=expense.id edit='false' %}">
+                                <td class="text-center align-middle">{{ expense.id }}</td>
+                                <td class="text-center align-middle">{{ expense.VehicleId.id}}</td>
+                                <td class="text-center align-middle">{{ expense.VehicleId.VIN }}</td>
+                                <td class="text-center align-middle">{{ expense.Date }}</td>
+                                <td class="text-center align-middle">{{ expense.Description }}</td>
+                                <td class="text-center align-middle">{{ expense.Amount }}</td>
+                                <td class="text-center align-middle">
+                                    <a href="{% url 'Elite:viewExpense' expense.id "false"%}" class="btn btn-primary">View</a>
+                                    <a href="{% url 'Elite:viewExpense' expense.id "true" %}" class="btn btn-warning">Edit</a>
+                                </td>
+                            </tr>
+
+                    {% endfor %}
+
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script>
+    // JavaScript for double-click event
+    document.addEventListener("DOMContentLoaded", function() {
+        var rows = document.querySelectorAll(".clickable-row");
+        rows.forEach(function(row) {
+            row.addEventListener("dblclick", function() {
+                var viewUrl = this.getAttribute("data-url-view");
+                var editUrl = this.getAttribute("data-url-edit");
+                // Redirect to view or edit URL based on double-click
+                // For example, you can use window.location.href
+                // window.location.href = viewUrl;
+                // Or open in a new tab
+                window.location.href = viewUrl;
+            });
+        });
+    });
+
+
+ document.addEventListener("DOMContentLoaded", function() {
+        var searchInput = document.getElementById('searchInput');
+        var vehicleTable = document.getElementById('vehicleTable');
+        var rows = vehicleTable.getElementsByTagName('tr');
+
+        searchInput.addEventListener('keyup', function(event) {
+            var searchText = event.target.value.toLowerCase();
+
+            for (var i = 1; i < rows.length; i++) { // Start from index 1 to exclude the header row
+                var row = rows[i];
+                var cells = row.getElementsByTagName('td');
+                var found = false;
+
+                for (var j = 0; j < cells.length; j++) {
+                    var cell = cells[j];
+                    if (cell.textContent.toLowerCase().indexOf(searchText) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+    });
+</script>
+    
+{% endblock %}
+</body>
+</html>

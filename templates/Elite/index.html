@@ -1,0 +1,35 @@
+{% extends 'Elite/base.html' %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %} Home Page {% endblock %}</title>
+</head>
+<body>
+{% block body %}
+<br>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h3>Welcome to the server</h3>
+            <p>This server is designed to track inventory for a vehicle dealership/repair shop.</p>
+        </div>
+    </div>
+
+    <br>
+    <br>
+    
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h4>Quick Links</h4>
+            <a href="{% url 'Elite:vehicles' %}" class="btn btn-primary">Vehicles</a>
+            <a href="{% url 'Elite:expenses' %}" class="btn btn-primary">Expenses</a>
+            <a href="/admin" class="btn btn-danger">Admin Panel</a>
+        </div>
+    </div>
+{% endblock %}
+</body>
+</html>

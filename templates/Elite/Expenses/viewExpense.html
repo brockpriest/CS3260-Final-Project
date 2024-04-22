@@ -1,0 +1,106 @@
+{% extends 'Elite/base.html' %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Expense{% endblock %}</title>
+</head>
+<body>
+{% block body %}
+    
+
+<div class="container">
+
+    {% if edit == "true" %}
+        <h1 class="mt-5 mb-4 text-center">Edit Expense</h1>
+        <a href="{% url "Elite:viewVehicle" expense.VehicleId.id "false" %}" class="btn btn-primary"><- Back to Vehicle</a>
+    {% else %}
+        <h1 class="mt-5 mb-4 text-center">View Expense</h1>
+        <a href="{% url "Elite:viewVehicle" expense.VehicleId.id "false" %}" class="btn btn-primary"><- Back to Vehicle</a>
+        <a href="{% url "Elite:viewExpense" expense.id "true" %}" class="btn btn-warning">Edit</a>
+    {% endif %}
+
+    <br>
+    <br>
+
+    {% if edit == "true" %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label for="id_dropdown_field" class="col-sm-4 col-form-label text-right">Vehicle:</label>
+                    <div class="col-sm-8">
+                        {{ form.VehicleId }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="id_dropdown_field" class="col-sm-4 col-form-label text-right">Description:</label>
+                    <div class="col-sm-8">
+                        {{ form.Description }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="id_Date" class="col-sm-4 col-form-label text-right">Date:</label>
+                    <div class="col-sm-8">
+                        {{ form.Date }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Amount" class="col-sm-4 col-form-label text-right">Amount:</label>
+                    <div class="col-sm-8">
+                        {{ form.Amount }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Add more fields as needed -->
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+{% else %}
+    <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="id_dropdown_field" class="col-sm-4 col-form-label text-right">Vehicle:</label>
+                        <div class="col-sm-8">
+                            {{ expense.VehicleId }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_dropdown_field" class="col-sm-4 col-form-label text-right">Description:</label>
+                        <div class="col-sm-8">
+                            {{ expense.Description }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_Date" class="col-sm-4 col-form-label text-right">Date:</label>
+                        <div class="col-sm-8">
+                            {{ expense.Date }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Amount" class="col-sm-4 col-form-label text-right">Amount:</label>
+                        <div class="col-sm-8">
+                            ${{ expense.Amount }}
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+            
+        </form>
+{% endif %}
+
+</div>
+
+{% endblock %}
+
+</body>
+</html>

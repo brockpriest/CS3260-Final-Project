@@ -1,0 +1,265 @@
+{% extends 'Elite/base.html' %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Vehicle{% endblock %}</title>
+    
+    <style>
+        /* Custom CSS */
+        .form-label {
+            width: 150px; /* Adjust label width as needed */
+            text-align: right;
+            margin-right: 20px; /* Add some spacing between label and input */
+        }
+        input[type="text"] {
+            width: calc(100% - 170px); /* Adjust input width to fill remaining space */
+            display: inline-block;
+            vertical-align: middle;
+        }
+        p{
+            width: 150px; /* Adjust label width as needed */
+            text-align: right;
+            margin-right: 20px; /* Add some spacing between label and input */
+        }
+    </style>
+
+</head>
+<body onload="disableForm()">
+
+{% block body %}
+    <div class="container">
+        <a href="{% url "Elite:vehicles" %}" class="btn btn-link"><- Back to Vehicles</a>
+    {% if editing == 'true'%}
+        
+        <h1 class="mt-5 mb-4">Edit Vehicle Information</h1>
+        <form id="myForm" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="id_dropdown_field" class="col-sm-4 col-form-label text-right">Dropdown Field:</label>
+                        <div class="col-sm-8">
+                            {{ form.dropdown_field }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_Year" class="col-sm-4 col-form-label text-right">Year:</label>
+                        <div class="col-sm-8">
+                            {{ form.Year }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_Make" class="col-sm-4 col-form-label text-right">Make:</label>
+                        <div class="col-sm-8">
+                            {{ form.Make }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_Model" class="col-sm-4 col-form-label text-right">Model:</label>
+                        <div class="col-sm-8">
+                            {{ form.Model }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_VIN" class="col-sm-4 col-form-label text-right">VIN:</label>
+                        <div class="col-sm-8">
+                            {{ form.VIN }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="id_PurchaseDate" class="col-sm-4 col-form-label text-right">Purchase Date:</label>
+                        <div class="col-sm-8">
+                            {{ form.PurchaseDate }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_PurchasePrice" class="col-sm-4 col-form-label text-right">Purchase Price:</label>
+                        <div class="col-sm-8">
+                            {{ form.PurchasePrice }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_PurchasedFrom" class="col-sm-4 col-form-label text-right">Purchased From:</label>
+                        <div class="col-sm-8">
+                            {{ form.PurchasedFrom }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_SoldDate" class="col-sm-4 col-form-label text-right">Sold Date:</label>
+                        <div class="col-sm-8">
+                            {{ form.SoldDate }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_SoldPrice" class="col-sm-4 col-form-label text-right">Sold Price:</label>
+                        <div class="col-sm-8">
+                            {{ form.SoldPrice }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_SoldTo" class="col-sm-4 col-form-label text-right">Sold To:</label>
+                        <div class="col-sm-8">
+                            {{ form.SoldTo }}
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <!-- Add more fields as needed -->
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+        
+    {% else %}
+        <h1 class="mt-5 mb-4">View Vehicle Information</h1>
+        <a href="{% url "Elite:viewVehicle" vehicle.id "true" %}" class="btn btn-warning">Edit</a>
+        <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="id_dropdown_field" class="col-sm-4 col-form-label text-right">Choose:</label>
+                        <div class="col-sm-8">
+                            <p>{{ vehicle.dropdown_field }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_Year" class="col-sm-4 col-form-label text-right">Year:</label>
+                        <div class="col-sm-8">
+                            <p>{{ vehicle.Year }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_Make" class="col-sm-4 col-form-label text-right">Make:</label>
+                        <div class="col-sm-8">
+                            <p>{{ vehicle.Make }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_Model" class="col-sm-4 col-form-label text-right">Model:</label>
+                        <div class="col-sm-8">
+                            <p>{{ vehicle.Model }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_VIN" class="col-sm-4 col-form-label text-right">VIN:</label>
+                        <div class="col-sm-8">
+                            <p>{{ vehicle.VIN }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="id_PurchaseDate" class="col-sm-4 col-form-label text-right">Purchase Date:</label>
+                        <div class="col-sm-8">
+                            <p>{{ vehicle.PurchaseDate }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_PurchasePrice" class="col-sm-4 col-form-label text-right">Purchase Price:</label>
+                        <div class="col-sm-8">
+                            <p>{{ vehicle.PurchasePrice }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_PurchasedFrom" class="col-sm-4 col-form-label text-right">Purchased From:</label>
+                        <div class="col-sm-8">
+                            <p>{{ vehicle.PurchasedFrom }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_SoldDate" class="col-sm-4 col-form-label text-right">Sold Date:</label>
+                        <div class="col-sm-8">
+                            <p>{{ vehicle.SoldDate }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_SoldPrice" class="col-sm-4 col-form-label text-right">Sold Price:</label>
+                        <div class="col-sm-8">
+                            <p>{{ vehicle.SoldPrice }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_SoldTo" class="col-sm-4 col-form-label text-right">Sold To:</label>
+                        <div class="col-sm-8">
+                            <p>{{ vehicle.SoldTo }}</p>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        
+        
+    {% endif %}
+    
+        <br>
+    <h2>Expenses</h2>
+        <a href="{% url "Elite:newExpense" vehicle.id %}" class="btn btn-primary">New Expense</a>
+        <br>
+        <br>
+        
+    <table id="vehicleTable" class="table table-hover">
+        <thead class="thead-dark">
+         <tr>
+             <th class="text-center" scope="col">ID</th>
+{#             <th class="text-center" scope="col">Vehicle Id</th>#}
+{#             <th class="text-center" scope="col">VIN</th>#}
+             <th class="text-center" scope="col">Date</th>
+             <th class="text-center" scope="col">Description</th>
+             <th class="text-center" scope="col">Cost</th>
+             <th class="text-center" scope="col">Options</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for expense in expenses_info %}
+        <tr class="clickable-row" data-url-view="{% url 'Elite:viewExpense' expense_id=expense.id edit='false' %}">
+            <td class="text-center align-middle">{{ expense.id }}</td>
+{#            <td class="text-center align-middle">{{ expense.VehicleId.id}}</td>#}
+{#            <td class="text-center align-middle">{{ expense.VehicleId.VIN }}</td>#}
+            <td class="text-center align-middle">{{ expense.Date }}</td>
+            <td class="text-center align-middle">{{ expense.Description }}</td>
+            <td class="text-center align-middle">{{ expense.Amount }}</td>
+            <td class="text-center align-middle">
+                <a href="{% url 'Elite:viewExpense' expense.id "false"%}" class="btn btn-primary">Edit</a>
+                <a href="{% url 'Elite:deleteExpense' expense.id %}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        
+        {% endfor %}
+        
+        </tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+    
+    
+    
+    
+    
+    
+    <script>
+        // JavaScript for double-click event
+        document.addEventListener("DOMContentLoaded", function() {
+            var rows = document.querySelectorAll(".clickable-row");
+            rows.forEach(function(row) {
+                row.addEventListener("dblclick", function() {
+                    var viewUrl = this.getAttribute("data-url-view");
+                    var editUrl = this.getAttribute("data-url-edit");
+                    // Redirect to view or edit URL based on double-click
+                    // For example, you can use window.location.href
+                    // window.location.href = viewUrl;
+                    // Or open in a new tab
+                    window.location.href = viewUrl;
+                });
+            });
+        });
+</script>
+
+
+{% endblock %}
+</body>
+</html>

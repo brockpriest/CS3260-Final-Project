@@ -1,0 +1,115 @@
+{% extends 'Elite/base.html' %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}New Vehicle{% endblock %}</title>
+
+    <style>
+        /* Custom CSS */
+        .form-label {
+            width: 150px; /* Adjust label width as needed */
+            text-align: right;
+            margin-right: 20px; /* Add some spacing between label and input */
+        }
+        input[type="text"] {
+            width: calc(100% - 170px); /* Adjust input width to fill remaining space */
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+
+</head>
+<body>
+
+{% block body %}
+
+    <div class="container">
+    <h1 class="mt-5 mb-4">New Vehicle</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label for="id_dropdown_field" class="col-sm-4 col-form-label text-right">Dropdown Field:</label>
+                    <div class="col-sm-8">
+                        {{ form.dropdown_field }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="id_Year" class="col-sm-4 col-form-label text-right">Year:</label>
+                    <div class="col-sm-8">
+                        {{ form.Year }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="id_Make" class="col-sm-4 col-form-label text-right">Make:</label>
+                    <div class="col-sm-8">
+                        {{ form.Make }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="id_Model" class="col-sm-4 col-form-label text-right">Model:</label>
+                    <div class="col-sm-8">
+                        {{ form.Model }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="id_VIN" class="col-sm-4 col-form-label text-right">VIN:</label>
+                    <div class="col-sm-8">
+                        {{ form.VIN }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label for="id_PurchaseDate" class="col-sm-4 col-form-label text-right">Purchase Date:</label>
+                    <div class="col-sm-8">
+                        {{ form.PurchaseDate }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="id_PurchasePrice" class="col-sm-4 col-form-label text-right">Purchase Price:</label>
+                    <div class="col-sm-8">
+                        {{ form.PurchasePrice }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="id_PurchasedFrom" class="col-sm-4 col-form-label text-right">Purchased From:</label>
+                    <div class="col-sm-8">
+                        {{ form.PurchasedFrom }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="id_SoldDate" class="col-sm-4 col-form-label text-right">Sold Date:</label>
+                    <div class="col-sm-8">
+                        {{ form.SoldDate }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="id_SoldPrice" class="col-sm-4 col-form-label text-right">Sold Price:</label>
+                    <div class="col-sm-8">
+                        {{ form.SoldPrice }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="id_SoldTo" class="col-sm-4 col-form-label text-right">Sold To:</label>
+                    <div class="col-sm-8">
+                        {{ form.SoldTo }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Add more fields as needed -->
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+
+{% endblock %}
+</body>
+</html>
