@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 
 import Elite.models
-from .forms import VehicleInformationForm, ExpenseForm
+from .forms import VehicleInformationForm, ExpenseForm, lockUnlockForm
 from .models import VehicleInformation
 from .models import Expense
 from .models import search_expenses
@@ -59,6 +59,22 @@ def deleteVehicle(request, vehicle_id):
     context = {'vehicle': vehicle}
 
     return render(request, 'Elite/Vehicles/deleteVehicle.html', context)
+
+def unlockVehicle(request, vehicle_id):
+    vehicle = get_object_or_404(VehicleInformation, pk=vehicle_id)
+
+    form = lockUnlockForm(request.POST or None, instance=vehicle)
+    if form.is_valid():
+        if request.method == 'POST':
+            form.save()
+            messages.add_message(request, messages.SUCCESS, f"<b>{vehicle.Make} {vehicle.Model} unlocked successfully.")
+            return redirect('Elite:viewVehicle', vehicle.id, "true")
+
+
+    context = {'vehicle': vehicle}
+
+    return render(request, 'Elite/Vehicles/unlockVehicle.html', context)
+
 
 
 def new_vehicle(request):

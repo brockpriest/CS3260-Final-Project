@@ -19,6 +19,7 @@ class VehicleInformation(models.Model):
     Make = models.CharField(max_length=200, null=False)
     Model = models.CharField(max_length=200, null=False)
     VIN = models.CharField(max_length=20, null=False)
+    LockVehicle = models.BooleanField(default=False)
 
     # Purchase information
     PurchaseDate = models.DateField(null=True, blank=True)
@@ -60,3 +61,5 @@ def search_expenses(vehicle_id):
     except Expense.DoesNotExist:
         # Handle case when Expense object does not exist
         return None
+
+

@@ -34,7 +34,7 @@
 {% block body %}
     <div class="container">
         <a href="{% url "Elite:vehicles" %}" class="btn btn-link"><- Back to Vehicles</a>
-    {% if editing == 'true'%}
+    {% if editing == 'true' and vehicle.LockVehicle == False %}
         
         <h1 class="mt-5 mb-4">Edit Vehicle Information</h1>
         <form id="myForm" method="post">
@@ -69,6 +69,12 @@
                         <label for="id_VIN" class="col-sm-4 col-form-label text-right">VIN:</label>
                         <div class="col-sm-8">
                             {{ form.VIN }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_VIN" class="col-sm-4 col-form-label text-right">Status</label>
+                        <div class="col-sm-8">
+                            {{ form.LockVehicle }} Locked
                         </div>
                     </div>
                 </div>
@@ -118,9 +124,21 @@
         
     {% else %}
         <h1 class="mt-5 mb-4">View Vehicle Information</h1>
-        <a href="{% url "Elite:viewVehicle" vehicle.id "true" %}" class="btn btn-warning">Edit</a>
+        {% if vehicle.LockVehicle == False %}
+            <a href="{% url "Elite:viewVehicle" vehicle.id "true" %}" class="btn btn-warning">Edit</a>
+        {% else %}
+            <a href="{% url "Elite:unlockVehicle" vehicle_id=vehicle.id %}" class="btn btn-warning">Unlock Vehicle</a>
+        {% endif %}
         <div class="row">
-                <div class="col-md-6">
+            <div class="col-md-6">
+                    {% if vehicle.LockVehicle == True %}
+                            <div class="form-group row">
+                                <label for="id_dropdown_field" class="col-sm-4 col-form-label text-right">Vehicle Status:</label>
+                                <div class="col-sm-8">
+                                    <p style="color:red">Locked</p>
+                                </div>
+                            </div>
+                    {% endif %}
                     <div class="form-group row">
                         <label for="id_dropdown_field" class="col-sm-4 col-form-label text-right">Choose:</label>
                         <div class="col-sm-8">

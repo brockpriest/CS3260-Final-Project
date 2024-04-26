@@ -12,3 +12,11 @@ class ExpenseForm(forms.ModelForm):
     class Meta:
         model = Expense
         fields = '__all__'
+
+class lockUnlockForm(forms.ModelForm):
+    class Meta:
+        model = VehicleInformation
+        fields = {
+            'id': forms.IntegerField(),
+            'LockVehicle': forms.BooleanField(required=False)
+        }
